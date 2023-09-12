@@ -1,11 +1,11 @@
-from peewee import SqliteDatabase, CharField, DateTimeField,IntegerField, FloatField, Model
+from peewee import SqliteDatabase, CharField, DateTimeField,IntegerField, FloatField,DecimalField, TextField,TimestampField,Model
 
 db = SqliteDatabase('oeeRecord.db')
 
 class OeeRecord(Model):
     sensor = IntegerField()
     eth_mac = CharField()
-    epoch = FloatField()
+    date = IntegerField(null = False)
     date_time = DateTimeField()
 
     class Meta:
@@ -13,3 +13,4 @@ class OeeRecord(Model):
 
 db.connect()
 db.create_tables([OeeRecord])
+print("Base de datos creada")

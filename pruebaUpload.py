@@ -1,5 +1,5 @@
 import requests
-from oeeRecords import OeeRecord
+from oeeRecords import OeeRecord  # Asegúrate de importar la clase OeeRecord correctamente
 from configurations import API_ENDPOINT
 import json
 from datetime import datetime
@@ -35,12 +35,22 @@ for record in records:
 
 
 def request():
-    try:
+    tiempo_maximo = 5  # Cambia este valor al tiempo deseado
+    contador = 0
+    if contador >= tiempo_maximo:
+        print("Subiendo datos a la nube")
+        print(contador)
+        contador += 1
+        time.sleep(1)
         req = requests.post(url=API_ENDPOINT, json=dataToSend)
         print(req)
-        if req.status_code == 200:
-            deleteRecords()
-    except:
+    if req.status_code == 200:
+        deleteRecords()
+    else:
         print("No se eliminaron los registros")
+
+
+
+
 
 
