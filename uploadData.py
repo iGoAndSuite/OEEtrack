@@ -14,9 +14,9 @@ def deleteRecords():
 def to_remote_object(record): 
     temp_object = {
         'id': record.id,
+        'date': record.date,
         'sensor': record.sensor,
         'eth_mac': record.eth_mac,
-        'date': record.date,
         'date_time': record.date_time.strftime('%Y-%m-%d %H:%M:%S'),
         #'epoch_date': str(record.date.timestamp())
     }
@@ -24,23 +24,39 @@ def to_remote_object(record):
 #int(record.date.timestamp())
 
 records = OeeRecord.select()
-# Inicializa una lista vacía para almacenar los datos procesados
-dataToSend = []
-# Procesa cada registro y agrega los datos procesados a dataToSend
-for record in records:
-    dataToSend.append(to_remote_object(record))
-    # Convierte dataToSend a un objeto JSON
-    json_object = json.dumps(dataToSend, indent=4, sort_keys=True, default=str)
-    #print(json_object)
 
 
-def request():
+
+
+def upload_and_delete():
+    records = OeeRecord.select()
+
+    # Procesa cada registro y agrega los datos procesados a dataToSend
+    dataToSend = []
+
+    for record in records:
+        dataToSend.append(to_remote_object(record))
+
+    # Realiza la solicitud POST a la API
     try:
-        req = requests.post(url=API_ENDPOINT, json=dataToSend)
-        print(req)
-        if req.status_code == 200:
-            deleteRecords()
-    except:
-        print("No se eliminaron los registros")
+        response = requests.post(API_ENDPOINT, json=dataToSend)
+        response.raise_for_status()
+        if response.status_code == 200:
+            print(f"Datos subidos exitosamente. Código de estado: {response.status_code}")
+            deleteRecords()  # Elimina los registros de la base de datos
+        else:
+            print(f"Error al subir datos. Código de estado: {response.status_code}")
+    except requests.exceptions.HTTPError as errh:
+        print ("Error HTTP:",errh)
+    except requests.exceptions.ConnectionError as errc:
+        print ("Error de conexión:",errc)
+    except requests.exceptions.Timeout as errt:
+        print ("Error de timeout:",errt)
+    except requests.exceptions.RequestException as err:
+        print ("Error en la solicitud:",err)
+
+
+
+
 
 

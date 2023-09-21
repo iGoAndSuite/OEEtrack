@@ -3,7 +3,7 @@ from peewee import SqliteDatabase, CharField, DateTimeField,IntegerField, FloatF
 db = SqliteDatabase('oeeRecord.db')
 
 class OeeRecord(Model):
-    sensor = IntegerField()
+    sensor = CharField()
     eth_mac = CharField()
     date = IntegerField(null = False)
     date_time = DateTimeField()
