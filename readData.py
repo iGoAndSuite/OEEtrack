@@ -24,7 +24,7 @@ def controlar_ADC(adc_anterior):
     if ADC1Act >=umbral_encendido and adc_anterior[0]==0:
             
         print("Pulso Input 1", ADC1Act)
-        insertData()
+        insertData(1)
         automationhat.analog.one.auto_voltage_range = True  # Encender el ADC
         adc_anterior[0] = True
         #print("flag set to true")
@@ -45,7 +45,7 @@ def controlar_ADC(adc_anterior):
     if ADC2Act >=umbral_encendido and adc_anterior[1]==0:
             
         print("Pulso Input 2", ADC2Act)
-        insertData2()
+        insertData(2)
         automationhat.analog.two.auto_voltage_range = True  # Encender el ADC
         adc_anterior[1] = True
         #time.sleep(1)  # Esperar un segundo antes de volver a verificar
@@ -63,7 +63,7 @@ def controlar_ADC(adc_anterior):
     if ADC3Act >=umbral_encendido and adc_anterior[2]==0:
             
         print("Pulso Input 3", ADC3Act)
-        insertData3()
+        insertData(3)
         automationhat.analog.three.auto_voltage_range = True  # Encender el ADC
         adc_anterior[2] = True
         #time.sleep(1)  # Esperar un segundo antes de volver a verificar
